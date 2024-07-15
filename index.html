@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gerenciador de Tarefas</title>
 </head>
 <body>
-    
+    <footer>
+        <h1>Gerenciador de tarefas</h1>
+        <button>listar todos</button>
+        <button>listar por prioridade </button>
+    </footer>
+    <main>
+        <h2>adicionar novas tarefas</h2>
+        <form id="newTask">
+            <label for="name">nome</label>
+            <input type="text" placeholder="digite o nome da tarefa" id="name">
+            <br>
+            <label for="description">descrição da tarefa</label>
+            <input type="text" placeholder="digite a descricao da tarefa" id="description">
+            <br>
+            <label for="date">dia da tarefa</label>
+            <input type="date" name="dateConlusion" id="dateConlusion">
+            <br>
+            <label for="prioridade">prioridade</label>
+            <select name="priority" id="priority">
+                <option value="ALTA">Alta</option>
+                <option value="MEDIA">Media</option>
+                <option value="BAIXA">Baixa</option>
+            </select>
+            <button type="submit">criar nova tarfa</button>
+        </form>
+    </main>
+    <script src="js/main.js"></script>
 </body>
 </html>
