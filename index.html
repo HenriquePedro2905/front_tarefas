@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/style.css">
     <title>Gerenciador de Tarefas</title>
 </head>
 <body>
     <footer>
         <h1>Gerenciador de tarefas</h1>
-        <button>listar todos</button>
+        <button id="newTaskButton">nova tarefa</button>
+        <button onclick="listAll()">listar todos</button>
         <button>listar por prioridade </button>
     </footer>
     <main>
-        <h2>adicionar novas tarefas</h2>
-        <form id="newTask">
+        <form id="formNewTask" style="display: none;">
+            <h2>adicionar novas tarefas</h2>
             <label for="name">nome</label>
             <input type="text" placeholder="digite o nome da tarefa" id="name">
             <br>
@@ -31,7 +33,11 @@
             </select>
             <button type="submit">criar nova tarfa</button>
         </form>
+
+        <div id="taskDiv" class="taskDiv" style="display: none;"> </div>
+
     </main>
+    <script src="js/acoes.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
