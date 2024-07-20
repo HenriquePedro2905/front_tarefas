@@ -1,6 +1,14 @@
 let id;
 const taskDiv = document.getElementById('taskDiv');
 
+document.getElementById('newTaskButton').addEventListener('click', function() {
+    let form = document.getElementById('formNewTask');
+
+    if(form.style.display === 'none'){
+        form.style.display = 'block';
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const formNewTask = document.getElementById('formNewTask');
 
@@ -42,28 +50,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-async function listAll(){
+async function listAll(list){
+    
+    let rota = list === 0 ? 'listAll' : 'listarByPriority';
+
     try {
-        let status;
+        console.log(rota)
+
         let taskCompleted;
-        const response = await fetch('http://localhost:8080/task/listAll');
+        const response = await fetch(`http://localhost:8080/task/${rota}`);
         const data = await response.json();
+        
+        console.log('Dados recebidos:', data);
+            
         taskDiv.innerHTML = '';
         taskDiv.style.display = 'block';
-                data.forEach(task => {
-
+        
+        data.forEach(task => {
                     let status = task.status ? 'Concluida' : 'Pendente';
 
                     const taskElement = document.createElement('div');
-                    taskElement.textContent = `${task.name} - descrição: ${task.description} - Data: ${task.dateConclusion}
-                                            - Status: ${status} - Prioridade: ${task.priority}`;
+                    taskElement.className = 'taskElement';
+                    taskElement.innerHTML = `
+                        <span class="name-task">${task.name}</span><br>
+                        <span class="description-task">descrição: ${task.description}</span><br>
+                        <span class="date-task">Dia:${task.dateConclusion}</span><br>
+                        <span class="status-task">${status}</span><br>
+                        <span class="status-task">Prioridade: ${task.priority}</span><br>
+                        <span class="nao-sei">Marcar como concluido</span>
+                        `;
 
                     taskCompleted = document.createElement('input');
                     taskCompleted.type = 'checkbox';
+                    taskCompleted.className = 'taskCompleted';
                     taskCompleted.id = `taskCompleted-${task.id}`;
                     taskCompleted.checked = task.status;
                     taskElement.appendChild(taskCompleted);
                     taskDiv.appendChild(taskElement);
+                    console.log(taskDiv)
                 });
         } catch (error){
             console.error('erro', error)
@@ -94,7 +118,7 @@ async function taskCompletedUpdate(event){
                 body: JSON.stringify(checkedStatusData)
             }).then(response => {
                 if(response.status === 200) {
-                    listAll();
+                        listAll(0);
                 } else {
                     console.error('error')
                 }

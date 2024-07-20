@@ -7,14 +7,18 @@
     <title>Gerenciador de Tarefas</title>
 </head>
 <body>
-    <footer>
+    <header>
         <h1>Gerenciador de tarefas</h1>
-        <button id="newTaskButton">nova tarefa</button>
-        <button onclick="listAll()">listar todos</button>
-        <button>listar por prioridade </button>
-    </footer>
+    </header>
     <main>
-        <form id="formNewTask" style="display: none;">
+        
+        <div class="buttons">
+            <button id="newTaskButton">nova tarefa</button>
+            <button onclick="listAll(0)">listar todos</button>
+            <button onclick="listAll(1)">listar por prioridade </button>
+        </div>
+
+        <form id="formNewTask" class="formNewTask" style="display: none;">
             <h2>adicionar novas tarefas</h2>
             <label for="name">nome</label>
             <input type="text" placeholder="digite o nome da tarefa" id="name">
@@ -34,10 +38,17 @@
             <button type="submit">criar nova tarfa</button>
         </form>
 
-        <div id="taskDiv" class="taskDiv" style="display: none;"> </div>
+        <div id="taskDiv" class="taskDiv" style="display: none;"></div>
 
     </main>
-    <script src="js/acoes.js"></script>
+
+    <footer>
+        <p>Desenvolvido por Pedro Henrique</p>
+        <div class="github">
+            <img src="icons/icons8-github-30.png" alt="icon-github">
+            <a href="https://github.com/HenriquePedro2905">HenriquePedro2905</a>
+        </div>
+    </footer>
     <script src="js/main.js"></script>
 </body>
 </html>
