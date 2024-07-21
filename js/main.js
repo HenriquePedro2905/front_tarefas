@@ -120,7 +120,6 @@ async function list(list){
             const taskElement = document.createElement('div');             
             taskElement.className = 'taskElement';  // Define a classe para estilizar no CSS
             taskElement.innerHTML = `                                     
-                <p>${task.id}</p>
                 <span class="name-task">${task.name}</span><br>
                 <span class="description-task">descrição: ${task.description}</span><br>
                 <span class="date-task">Dia:${task.dateConclusion}</span><br>
