@@ -68,10 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(taskData)  // Escreve o corpo da requisição com os dados para criar uma nova tarefa
             }).then(response => {
                 if(response.status === 201) {  // Verifica se a resposta foi bem-sucedida
-                    alert('tarefa criada com sucesso');  // Exibe um alerta e reseta o formulário
                     formTask.reset();
                     formTask.style.display = 'none';
                     currentTaskId = null;
+                    alert('tarefa criada com sucesso');  // Exibe um alerta e reseta o formulário
                 } else {
                     console.error('error')
                 }
