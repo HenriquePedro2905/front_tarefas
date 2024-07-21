@@ -29,7 +29,7 @@ main {
     align-items: center;
     justify-content: center;
     position: absolute;
-    left: 40%;
+    left: 30%;
 }
 
 button{
@@ -46,6 +46,9 @@ button:hover {
   }
 
 .formNewTask{
+    position: absolute;
+    top: 30%;
+    left: 40%;
     border-radius: 5px  ;
     width: 350px;
     height: 400px;

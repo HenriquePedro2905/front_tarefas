@@ -1,4 +1,4 @@
-let id;
+let currentTaskId;
 const taskDiv = document.getElementById('taskDiv');
 
 document.getElementById('newTaskButton').addEventListener('click', function() {
@@ -6,6 +6,7 @@ document.getElementById('newTaskButton').addEventListener('click', function() {
 
     if(form.style.display === 'none'){
         form.style.display = 'block';
+        taskDiv.style.display = 'none';
     }
 });
 
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const dateConlusion = new Date(dateInput).toISOString().split('T')[0];
 
-        const newTaskData = {
+        const taskData = {
             name: name,
             description: description,
             dateConclusion: dateConlusion,
@@ -32,32 +33,69 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
 
-        fetch('http://localhost:8080/task', {
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newTaskData)
-        }).then(response => {
-            if(response.status === 201) {
-                console.log('sucess')
-                formNewTask.reset();
-                formNewTask.style.display = 'none';
-            } else {
-                console.error('error')
-            }
-        });
+        if(currentTaskId){
+            taskData.id = currentTaskId;
+
+            fetch('http://localhost:8080/task/update', {
+                method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taskData)
+            }).then(response => {
+                if(response.status === 200)   {
+                    console.log('sucess')
+                    formNewTask.style.display = 'none';
+                } else {
+                    console.error('error')
+                }
+            });
+        } else{
+            fetch('http://localhost:8080/task', {
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newTaskData)
+            }).then(response => {
+                if(response.status === 201) {
+                    console.log('sucess')
+                    formNewTask.reset();
+                    formNewTask.style.display = 'none';
+                    currentTaskId = null;
+                } else {
+                    console.error('error')
+                }
+            });
+        }
+        
     });
 });
 
-async function listAll(list){
-    
-    let rota = list === 0 ? 'listAll' : 'listarByPriority';
+async function list(list){
 
+    let form = document.getElementById('formNewTask');
+
+    if (form.style.display == 'block') {
+        form.style.display = 'none';
+    }
+
+    let rota;
+
+    if(list === 0){
+        rota = 'listAll';
+    } else if (list === 1){
+        rota = 'listarByPriority';
+    } else {
+        rota = 'listByCompleted';
+    }
+    
     try {
         console.log(rota)
 
         let taskCompleted;
+        let buttonDeletar;
+        let buttonUpdate
         const response = await fetch(`http://localhost:8080/task/${rota}`);
         const data = await response.json();
         
@@ -72,22 +110,40 @@ async function listAll(list){
                     const taskElement = document.createElement('div');
                     taskElement.className = 'taskElement';
                     taskElement.innerHTML = `
+                        <p>${task.id}</p>
                         <span class="name-task">${task.name}</span><br>
                         <span class="description-task">descrição: ${task.description}</span><br>
                         <span class="date-task">Dia:${task.dateConclusion}</span><br>
                         <span class="status-task">${status}</span><br>
                         <span class="status-task">Prioridade: ${task.priority}</span><br>
-                        <span class="nao-sei">Marcar como concluido</span>
+                        <span class="nao-sei">Marcar como concluido</span> 
                         `;
-
+                    
+                   const taskId = task.id;
+                   id = `taskElement-${task.id}`;
+                        
+                    buttonDeletar = document.createElement('button');
+                    buttonUpdate = document.createElement('button');
+                    
                     taskCompleted = document.createElement('input');
                     taskCompleted.type = 'checkbox';
                     taskCompleted.className = 'taskCompleted';
                     taskCompleted.id = `taskCompleted-${task.id}`;
                     taskCompleted.checked = task.status;
+                    
+                    buttonDeletar.textContent = 'Deletar'
+                    buttonDeletar.addEventListener('click', function(){
+                        deleteTask(0);
+                    });
+
+                    buttonUpdate.textContent = 'atualizar tarefa';
+                    buttonUpdate.id = `taskID-${task.id}`;
+                    buttonUpdate.addEventListener('click', () => updateTask(taskId));
+
                     taskElement.appendChild(taskCompleted);
+                    taskElement.appendChild(buttonDeletar);
+                    taskElement.appendChild(buttonUpdate)
                     taskDiv.appendChild(taskElement);
-                    console.log(taskDiv)
                 });
         } catch (error){
             console.error('erro', error)
@@ -108,17 +164,17 @@ async function taskCompletedUpdate(event){
             id: taskId,
             status: status
         };
-//          arrumar a data que nao esta chegadno correto
+
         try {
             const response = await fetch('http://localhost:8080/task/updateStatus', {
-                method: 'POST',
+                method: 'PUT',
                 headers:{
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(checkedStatusData)
             }).then(response => {
                 if(response.status === 200) {
-                        listAll(0);
+                        list(0);
                 } else {
                     console.error('error')
                 }
@@ -126,6 +182,53 @@ async function taskCompletedUpdate(event){
         } catch (error) {
             console.error('error', error)
         }
+}
+
+async function deleteTask(deleteRota){
     
-    
+    const taskId = id?.split('-')[1];
+    let rota = deleteRota === 0 ? 'delete' : 'deleteCompleted';
+
+    const deleteData = {
+        id: taskId,
+        };
+
+    try {
+        const response = await fetch(`http://localhost:8080/task/${rota}`, {
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(deleteData)
+        }).then(response => {
+            if(response.status === 200) {
+                    list(0);
+            } else {
+                console.error('error')
+            }
+          });
+    } catch (error) {
+        console.error('error', error)
+    }
+}
+
+async function updateTask(taskId){
+    console.log(taskId)
+    currentTaskId = taskId
+
+    const tituloForm = document.getElementById('tituloForm');
+    const updateTask = document.getElementById('formNewTask');
+
+    tituloForm.innerHTML = 'atualizar tarefa';
+
+    if(updateTask.style.display === 'none'){
+        updateTask.style.display = 'block';
+        taskDiv.style.display = 'none';
+    }
+
+    const taskData = await fetch(`http://localhost:8080/task/${taskId}`).then(res => res.json());
+    document.getElementById('name').value = taskData.name;
+    document.getElementById('description').value = taskData.description;
+    document.getElementById('dateConlusion').value = taskData.dateConclusion;   
+    document.getElementById('priority').value = taskData.priority;
 }

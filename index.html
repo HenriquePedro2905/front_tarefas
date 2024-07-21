@@ -14,12 +14,14 @@
         
         <div class="buttons">
             <button id="newTaskButton">nova tarefa</button>
-            <button onclick="listAll(0)">listar todos</button>
-            <button onclick="listAll(1)">listar por prioridade </button>
+            <button onclick="list(0)">listar todos</button>
+            <button onclick="list(1)">listar por prioridade </button>
+            <button onclick="list(2)">tarefas concluidas </button>
+            <button onclick="deleteTask(1)">deletar tarefas concluidas </button>
         </div>
 
         <form id="formNewTask" class="formNewTask" style="display: none;">
-            <h2>adicionar novas tarefas</h2>
+            <h2 id="tituloForm">adicionar novas tarefas</h2>
             <label for="name">nome</label>
             <input type="text" placeholder="digite o nome da tarefa" id="name">
             <br>
