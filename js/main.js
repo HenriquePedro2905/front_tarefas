@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers:{
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(TaskData)
+                body: JSON.stringify(taskData)
             }).then(response => {
                 if(response.status === 201) {
                     console.log('sucess')
