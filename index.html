@@ -3,54 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/style.css">
-    <title>Gerenciador de Tarefas</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/formLogin.css">
 </head>
 <body>
     <header>
-        <h1>Gerenciador de tarefas</h1>
+        <h1>login</h1>
     </header>
+    
     <main>
-        
-        <div class="buttons">
-            <button id="newTaskButton">nova tarefa</button>
-            <button onclick="list(0)">listar todos</button>
-            <button onclick="list(1)">listar por prioridade </button>
-            <button onclick="list(2)">tarefas concluidas </button>
-            <button onclick="deleteTask(1)">deletar tarefas concluidas </button>
+        <div class="login-Container" id="loginContainer" >
+            <div class="login-header">
+                <h1>Bem vindo de volta</h1>
+                <p>faça login em sua conta</p>
+            </div>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Digite seu email">
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" name="password" id="password" placeholder="Digite sua senha">
+                </div>
+                <a href="#" class="forgot-password">Esqueceu sua senha</a>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+            <div class="signup">
+                <p>nao tem conta? <a href="#" id="signUpLink">Crie uma conta gratis</a></p>
+            </div>
         </div>
 
-        <form id="formNewTask" class="formNewTask" style="display: none;">
-            <h2 id="tituloForm">adicionar novas tarefas</h2>
-            <label for="name">nome</label>
-            <input type="text" placeholder="digite o nome da tarefa" id="name">
-            <br>
-            <label for="description">descrição da tarefa</label>
-            <input type="text" placeholder="digite a descricao da tarefa" id="description">
-            <br>
-            <label for="date">dia da tarefa</label>
-            <input type="date" name="dateConlusion" id="dateConlusion">
-            <br>
-            <label for="prioridade">prioridade</label>
-            <select name="priority" id="priority">
-                <option value="ALTA">Alta</option>
-                <option value="MEDIA">Media</option>
-                <option value="BAIXA">Baixa</option>
-            </select>
-            <button type="submit">criar nova tarfa</button>
-        </form>
-
-        <div id="taskDiv" class="taskDiv" style="display: none;"></div>
-
+        <div class="register-container" id="registerContainer" style="display: none;">
+            <div class="register-header">
+                <h1>Registre-se</h1>
+                <p>Crie sua conta</p>
+            </div>
+            <form id="registerForm">
+                <div class="input-group">
+                    <label for="name">Nome</label>
+                    <input type="text" name="name" id="name" placeholder="Digite seu nome">
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="registerEmail" placeholder="Digite seu email">
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" name="password" id="registerPassword" placeholder="Digite sua senha">
+                </div>
+                <button type="submit" class="submit-btn">Registre-se</button>
+            </form>
+            <div class="login">
+                <p>ja tem uma conta? <a href="#" id="loginLink">Faça login aqui!</a></p>
+            </div>
     </main>
-
+    
     <footer>
-        <p>Desenvolvido por Pedro Henrique</p>
         <div class="github">
             <img src="icons/icons8-github-30.png" alt="icon-github">
             <a href="https://github.com/HenriquePedro2905">HenriquePedro2905</a>
         </div>
     </footer>
-    <script src="js/main.js"></script>
+    <script src="/js/Login.js"></script>
+    <script src="/js/FormsToggle.js"></script>
 </body>
 </html>

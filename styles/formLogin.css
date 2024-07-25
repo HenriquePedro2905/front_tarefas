@@ -1,0 +1,136 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+header{
+    width: 100%;
+    background-color: #3f51b5;
+    border-style: solid;
+    margin-bottom: 10px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.login-Container, .register-container{
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
+}
+
+.login-header, .register-header{
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e0e4b;
+}
+
+.login-header p, .register-header p{
+    color: #7747ff;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: calc(100% - 32px);
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #1f2937;
+}
+
+.forgot-password {
+    display: block;
+    font-size: 14px;
+    color: #7747ff;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.submit-btn {
+    background-color: #7747ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover{
+    background-color: #5b38cc;
+}
+
+.signup, .login{
+    margin-top: 20px;
+}
+
+.signup p, .login p {
+    font-size: 14px;
+}
+
+.signup a, .login a {
+    color: #7747ff;
+    text-decoration: none;
+}
+
+
+footer{
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #3f51b5;
+    color: #fff; /* Cor do texto */
+    text-align: center; /* Alinhamento centralizado */
+    padding: 10px 0; /* Espaçamento interno */
+    font-family: Arial, sans-serif; /* Fonte */
+    border-top: 3px solid #000; /* Borda superior */
+    position: fixed;
+}
+
+footer p{
+    margin: 0;
+    font-size: 16px;
+}
+
+.github{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.github img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.github a{
+    color: #bbdefb;
+    text-decoration: underline;
+    font-size: 16px;
+}
+
+.github a:hover{
+    text-decoration: underline;
+}

@@ -1,20 +1,12 @@
 let currentTaskId;  // Variável global para armazenar o ID da tarefa atual (usada para atualização)
 const taskDiv = document.getElementById('taskDiv');  // Elemento div que contém as tarefas listadas
-
-// Evento para mostrar o formulário para criar uma nova tarefa ao clicar no botão "newTaskButton"
-document.getElementById('newTaskButton').addEventListener('click', function() {  
-    let form = document.getElementById('formNewTask');
-
-    // Alterna a visibilidade do formulário de tarefa e esconde a lista de tarefas
-    if(form.style.display === 'none'){   
-        form.style.display = 'block';
-        taskDiv.style.display = 'none';
-    }
-});
+const token = localStorage.getItem('authToken');
+const userId = localStorage.getItem('userId');
 
 // Evento para envio do formulário ao carregar o documento
 document.addEventListener('DOMContentLoaded', () => {  
     const formTask = document.getElementById('formNewTask');
+
 
     formTask.addEventListener('submit', (event) => {
         event.preventDefault();  // Previne o comportamento padrão de envio do formulário
@@ -46,7 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch('http://localhost:8080/task/update', {    
                 method: 'PUT',                              
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(taskData)  // Escreve o corpo da requisição com os dados para atualizar a tarefa
             }).then(response => {
@@ -63,7 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch('http://localhost:8080/task', {            
                 method: 'POST',                             
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(taskData)  // Escreve o corpo da requisição com os dados para criar uma nova tarefa
             }).then(response => {
@@ -93,20 +87,26 @@ async function list(list){
 
     // Define o endpoint dependendo do botão que foi apertado no HTML
     if(list === 0){     
-        rota = 'listAll'; 
+        rota = `listAll/${userId}`; 
     } else if (list === 1){
-        rota = 'listarByPriority';
+        rota = `listarByPriority/${userId}`;
     } else {
-        rota = 'listByCompleted';
+        rota = `listByCompleted/${userId}`;
     }
     
     try {
         let taskCompleted;
         let buttonDeletar;
         let buttonUpdate;
-        const response = await fetch(`http://localhost:8080/task/${rota}`);
+                
+        const response = await fetch(`http://localhost:8080/task/${rota}`, {
+            method: 'GET',
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        });
         const data = await response.json();  // Obtém os dados recebidos na requisição
-        
+        console.log(data)
         // Reseta o elemento taskDiv e define o display como block para mostrar as tarefas
         taskDiv.innerHTML = '';     
         taskDiv.style.display = 'block'; 
@@ -180,7 +180,8 @@ async function taskCompletedUpdate(event){
         const response = await fetch('http://localhost:8080/task/updateStatus', {   
             method: 'PUT',
             headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(checkedStatusData)  // Escreve o corpo da requisição com os dados para atualizar o status
         }).then(response => {
@@ -210,7 +211,8 @@ async function deleteTask(deleteRota){
         const response = await fetch(`http://localhost:8080/task/${rota}`, {
             method: 'DELETE',
             headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(deleteData)  // Escreve o corpo da requisição com os dados para deletar a tarefa
         }).then(response => {
@@ -231,9 +233,11 @@ async function updateTask(taskId){
     currentTaskId = taskId;
 
     const tituloForm = document.getElementById('tituloForm');
+    const buttonSub = document.getElementById('button-submit');
     const updateTask = document.getElementById('formNewTask');
 
     tituloForm.innerHTML = 'atualizar tarefa';  // Atualiza o título do formulário
+    buttonSub.innerHTML = 'atualizar';
 
     // Verifica se o formulário está visível e o exibe
     if(updateTask.style.display === 'none'){
@@ -242,7 +246,11 @@ async function updateTask(taskId){
     }
 
     // Obtém os dados da tarefa a partir do ID
-    const taskData = await fetch(`http://localhost:8080/task/${taskId}`).then(res => res.json());
+    const taskData = await fetch(`http://localhost:8080/task/${taskId}`,{
+        headers:{
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => res.json());
     document.getElementById('name').value = taskData.name;
     document.getElementById('description').value = taskData.description;
     document.getElementById('dateConlusion').value = taskData.dateConclusion;   
