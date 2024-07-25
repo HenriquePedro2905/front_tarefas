@@ -22,9 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.getElementById('newTaskButton').addEventListener('click', function() {  
     let form = document.getElementById('formNewTask');
     const tituloForm = document.getElementById('tituloForm');
-    const buttonSub = document.getElementById('button-submit');
     tituloForm.innerHTML = 'adicionar novas tarefas';  // Atualiza o título do formulário
-    buttonSub.innerHTML = 'atualizar';
     form.reset();
     // Alterna a visibilidade do formulário de tarefa e esconde a lista de tarefas
     if(form.style.display === 'none'){   
