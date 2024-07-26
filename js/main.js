@@ -237,8 +237,6 @@ async function updateTask(taskId){
     const updateTask = document.getElementById('formNewTask');
 
     tituloForm.innerHTML = 'atualizar tarefa';  // Atualiza o título do formulário
-    buttonSub.innerHTML = 'atualizar';
-
     // Verifica se o formulário está visível e o exibe
     if(updateTask.style.display === 'none'){
         updateTask.style.display = 'block';
