@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             taskData.id = currentTaskId;  // Define o ID do objeto com o ID atual
 
             // Envia uma requisição PUT para atualizar a tarefa
-            fetch('http://localhost:8080/task/update', {    
+            fetch('https://tarefas-9ku0.onrender.com/task/update', {    
                 method: 'PUT',                              
                 headers:{
                     'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } else {                                               
             // Envia uma requisição POST para criar uma nova tarefa
-            fetch('http://localhost:8080/task', {            
+            fetch('https://tarefas-9ku0.onrender.com/task', {            
                 method: 'POST',                             
                 headers:{
                     'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ async function list(list){
         let buttonDeletar;
         let buttonUpdate;
                 
-        const response = await fetch(`http://localhost:8080/task/${rota}`, {
+        const response = await fetch(`https://tarefas-9ku0.onrender.com/task/${rota}`, {
             method: 'GET',
             headers:{
                 'Authorization': `Bearer ${token}`
@@ -177,7 +177,7 @@ async function taskCompletedUpdate(event){
 
     try {
         // Envia uma requisição PUT para atualizar o status da tarefa
-        const response = await fetch('http://localhost:8080/task/updateStatus', {   
+        const response = await fetch('https://tarefas-9ku0.onrender.com/updateStatus', {   
             method: 'PUT',
             headers:{
                 'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ async function deleteTask(deleteRota){
 
     try {
         // Envia uma requisição DELETE para deletar a tarefa
-        const response = await fetch(`http://localhost:8080/task/${rota}`, {
+        const response = await fetch(`https://tarefas-9ku0.onrender.com/task/${rota}`, {
             method: 'DELETE',
             headers:{
                 'Content-Type': 'application/json',
@@ -246,7 +246,7 @@ async function updateTask(taskId){
     }
 
     // Obtém os dados da tarefa a partir do ID
-    const taskData = await fetch(`http://localhost:8080/task/${taskId}`,{
+    const taskData = await fetch(`https://tarefas-9ku0.onrender.com/task/${taskId}`,{
         headers:{
             'Authorization': `Bearer ${token}`
         }

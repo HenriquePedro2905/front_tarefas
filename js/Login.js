@@ -2,70 +2,86 @@ document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('login-form');
     const formRegister = document.getElementById('registerForm');
 
-    formLogin.addEventListener('submit', (event) => {
+    formLogin.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const login = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        loginUser(login,password)
-
+        try {
+            await loginUser(login, password);
+        } catch (error) {
+            console.error('Erro no login:', error);
+        }
     });
-      
-        function loginUser(login, password){
-            const loginData = {
-                login: login,
-                password: password
-            };
 
-            fetch('http://localhost:8080/auth/login',{
+    async function loginUser(login, password) {
+        const loginData = {
+            login: login,
+            password: password
+        };
+    
+        try {
+            const response = await fetch('https://tarefas-9ku0.onrender.com/auth/login', {
                 method: 'POST',
-                headers:{
+                headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(loginData)
-            }).then(response => response.json())
-            .then(data =>{
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+    
                 if (data.token) {
                     const token = data.token;
                     const userId = data.userId;
-                    localStorage.setItem('userId', userId)
+                    localStorage.setItem('userId', userId);
                     localStorage.setItem('authToken', token);
                     window.location.href = 'pages/taskManager.html';
                 } else {
-                    console.error('Token nao encontrado');
+                    console.error('Token não encontrado');
                 }
-            });
+            } else {
+                console.error('Erro na resposta da API:', response.status);
+            }
+        } catch (error) {
+            console.error('Erro ao realizar login:', error);
         }
-
-
-        formRegister.addEventListener('submit', (event) => {
-            event.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const login = document.getElementById('registerEmail').value;
-            const password = document.getElementById('password').value;
+    }
     
-            const registerData = {
-                name: name,
-                login: login,
-                password: password
-            };
-    
-            fetch('http://localhost:8080/auth/register', {
+
+    formRegister.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const login = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+
+        const registerData = {
+            name: name,
+            login: login,
+            password: password
+        };
+
+        try {
+            const response = await fetch('https://tarefas-9ku0.onrender.com/auth/register', {
                 method: 'POST',
-                headers:{
+                headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(registerData)
-            }).then(response => {
-                if(response.status === 201){
-                    alert('conta criada');
-                    formRegister.reset();
-                    console.log(response.status)
-                    loginUser(login, password);
-                }
-            })
-        })
+            });
 
+            if (response.status === 201) {
+                alert('Conta criada');
+                formRegister.reset();
+                await loginUser(login, password);
+            } else {
+                console.error('Erro ao criar conta:', response.status);
+            }
+        } catch (error) {
+            console.error('Erro ao criar conta:', error);
+        }
+    });
 });
