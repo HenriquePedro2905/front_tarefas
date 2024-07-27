@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('login-form');
     const formRegister = document.getElementById('registerForm');
+    const apiUrl = "https://tarefas-9ku0.onrender.com";
 
     formLogin.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     
         try {
-            const response = await fetch('https://tarefas-9ku0.onrender.com/auth/login', {
+            const response = await fetch(`${apiUrl}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch('https://tarefas-9ku0.onrender.com/auth/register', {
+            const response = await fetch(`${apiUrl}/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
