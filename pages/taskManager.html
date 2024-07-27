@@ -37,7 +37,27 @@
                 <option value="MEDIA">Media</option>
                 <option value="BAIXA">Baixa</option>
             </select>
-            <button type="submit" id="button-submit">Enviar</button>
+            <button type="submit" id="buttonNewTask">Enviar</button>
+        </form>
+
+        <form id="formUpdateTask" class="formUpdateTask" style="display: none;">
+            <h2 id="tituloForm">adicionar novas tarefas</h2>
+            <label for="name">nome</label>
+            <input type="text" placeholder="digite o nome da tarefa" id="nameUpdate">
+            <br>
+            <label for="description">descrição da tarefa</label>
+            <input type="text" placeholder="digite a descricao da tarefa" id="descriptionUpdate">
+            <br>
+            <label for="date">dia da tarefa</label>
+            <input type="date" name="dateConlusion" id="dateConlusionUpdate">
+            <br>
+            <label for="prioridade">prioridade</label>
+            <select name="priority" id="priorityUpdate">
+                <option value="ALTA">Alta</option>
+                <option value="MEDIA">Media</option>
+                <option value="BAIXA">Baixa</option>
+            </select>
+            <button type="submit" id="buttonUpdate">Enviar</button>
         </form>
 
         <div id="taskDiv" class="taskDiv" style="display: none;"></div>

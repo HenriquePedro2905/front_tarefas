@@ -5,17 +5,19 @@ const userId = localStorage.getItem('userId');
 
 // Evento para envio do formulário ao carregar o documento
 document.addEventListener('DOMContentLoaded', () => {  
-    const formTask = document.getElementById('formNewTask');
+    const formNewTask = document.getElementById('formNewTask');
+    const formUpdateTask = document.getElementById('formUpdateTask');
 
 
-    formTask.addEventListener('submit', (event) => {
+    formUpdateTask.addEventListener('submit', (event) => {
         event.preventDefault();  // Previne o comportamento padrão de envio do formulário
 
+        
         // Obtém os valores do formulário
-        const name = document.getElementById('name').value; 
-        const description = document.getElementById('description').value;
-        const dateInput = document.getElementById('dateConlusion').value;           
-        const priority = document.getElementById('priority').value;
+        const name = document.getElementById('nameUpdate').value; 
+        const description = document.getElementById('descriptionUpdate').value;
+        const dateInput = document.getElementById('dateConlusionUpdate').value;           
+        const priority = document.getElementById('priorityUpdate').value;
         const status = false;  // Define o status da tarefa como pendente
 
         // Transforma a data em um formato aceito pelo back-end
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Cria um objeto com os dados da tarefa para enviar como JSON
         const taskData = {  
+            id: currentTaskId,
             name: name,
             description: description,
             dateConclusion: dateConlusion,
@@ -30,9 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
             priority: priority
         };
 
-        // Verifica se existe um ID de tarefa atual
-        if(currentTaskId){    
-            taskData.id = currentTaskId;  // Define o ID do objeto com o ID atual
 
             // Envia uma requisição PUT para atualizar a tarefa
             fetch('https://tarefas-9ku0.onrender.com/task/update', {    
@@ -45,14 +45,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }).then(response => {
                 if(response.status === 200) {  // Verifica se a resposta foi bem-sucedida
                     alert('tarefa atualizada com sucesso');  // Exibe um alerta e reseta o formulário
-                    formTask.style.display = 'none';
-                    formTask.reset();
+                    formUpdateTask.style.display = 'none';
+                    formUpdateTask.reset();
                 } else {
                     console.error('error')
                 }
             });
-        } else {                                               
-            // Envia uma requisição POST para criar uma nova tarefa
+        });
+        
+        formNewTask.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
+            const dateInput = document.getElementById('dateConlusion').value;
+            const priority = document.getElementById('priority').value;
+            const status = false;
+
+            const dateConlusion = new Date(dateInput).toISOString().split('T')[0];
+
+            const taskData = {  
+                name: name,
+                description: description,
+                dateConclusion: dateConlusion,
+                status: status,
+                priority: priority
+            };
+    
+
             fetch('https://tarefas-9ku0.onrender.com/task', {            
                 method: 'POST',                             
                 headers:{
@@ -62,21 +82,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(taskData)  // Escreve o corpo da requisição com os dados para criar uma nova tarefa
             }).then(response => {
                 if(response.status === 201) {  // Verifica se a resposta foi bem-sucedida
-                    formTask.reset();
-                    formTask.style.display = 'none';
+                    formNewTask.reset();
+                    formNewTask.style.display = 'none';
                     currentTaskId = null;
                     alert('tarefa criada com sucesso');  // Exibe um alerta e reseta o formulário
                 } else {
                     console.error('error')
                 }
             });
-        }
-    });
+        });
 });
 
 // Função para listar as tarefas
 async function list(list){          
     let form = document.getElementById('formNewTask');
+    let formUp = document.getElementById('formUpdateTask');
+
+    if (formUp.style.display == 'block') {        
+        formUp.style.display = 'none';
+    }
 
     // Verifica se o formulário está visível e o esconde
     if (form.style.display == 'block') {        
@@ -199,7 +223,7 @@ async function taskCompletedUpdate(event){
 // Função para deletar a tarefa
 async function deleteTask(deleteRota){
     const taskId = id?.split('-')[1];
-    let rota = deleteRota === 0 ? 'delete' : 'deleteCompleted';
+    let rota = deleteRota === 0 ? `delete${userId}` : `deleteCompleted${userId}`;
 
     // Cria um objeto com os dados para passar como JSON
     const deleteData = {
@@ -232,16 +256,12 @@ async function updateTask(taskId){
     console.log(taskId);
     currentTaskId = taskId;
 
-    const tituloForm = document.getElementById('tituloForm');
-    const buttonSub = document.getElementById('button-submit');
-    const updateTask = document.getElementById('formNewTask');
+    const formNewTask = document.getElementById('formNewTask');
+    const formUpdateTask = document.getElementById('formUpdateTask');
 
-    tituloForm.innerHTML = 'atualizar tarefa';  // Atualiza o título do formulário
-    // Verifica se o formulário está visível e o exibe
-    if(updateTask.style.display === 'none'){
-        updateTask.style.display = 'block';
-        taskDiv.style.display = 'none';
-    }
+    taskDiv.style.display = 'none';
+    formNewTask.style.display = 'none';
+    formUpdateTask.style.display = 'block';
 
     // Obtém os dados da tarefa a partir do ID
     const taskData = await fetch(`https://tarefas-9ku0.onrender.com/task/${taskId}`,{
@@ -249,8 +269,8 @@ async function updateTask(taskId){
             'Authorization': `Bearer ${token}`
         }
     }).then(res => res.json());
-    document.getElementById('name').value = taskData.name;
-    document.getElementById('description').value = taskData.description;
-    document.getElementById('dateConlusion').value = taskData.dateConclusion;   
-    document.getElementById('priority').value = taskData.priority;
+    document.getElementById('nameUpdate').value = taskData.name;
+    document.getElementById('descriptionUpdate').value = taskData.description;
+    document.getElementById('dateConlusionUpdate').value = taskData.dateConclusion;   
+    document.getElementById('priorityUpdate').value = taskData.priority;
 }

@@ -45,7 +45,7 @@ button:hover {
     background-color: #cccccc;
   }
 
-.formNewTask{
+.formNewTask, .formUpdateTask{
     position: absolute;
     top: 30%;
     left: 40%;
@@ -57,7 +57,7 @@ button:hover {
     font-weight: bold;
 }
 
-#formNewTask input, #formNewTask select {
+#formNewTask input, #formNewTask select, #formUpdateTask input, #formUpdateTask select {
     width: 90%;
     padding: 10px;
     border: 1px solid #ccc;

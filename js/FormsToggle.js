@@ -15,18 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
         registerContainer.style.display = 'none';
         loginContainer.style.display = 'block';
     });
+
 });
 
-
-// Evento para mostrar o formulário para criar uma nova tarefa ao clicar no botão "newTaskButton"
-document.getElementById('newTaskButton').addEventListener('click', function() {  
-    let form = document.getElementById('formNewTask');
-    const tituloForm = document.getElementById('tituloForm');
-    tituloForm.innerHTML = 'adicionar novas tarefas';  // Atualiza o título do formulário
-    form.reset();
-    // Alterna a visibilidade do formulário de tarefa e esconde a lista de tarefas
-    if(form.style.display === 'none'){   
-        form.style.display = 'block';
-        taskDiv.style.display = 'none';
-    }
-});
+document.getElementById('newTaskButton').addEventListener('click', function(){
+    const formUpdateTask = document.getElementById('formUpdateTask');
+    formUpdateTask.style.display = 'none';
+    formNewTask.style.display = 'block';
+})
