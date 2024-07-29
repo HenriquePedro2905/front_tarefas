@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.getElementById('newTaskButton').addEventListener('click', function(){
     const formUpdateTask = document.getElementById('formUpdateTask');
+    const taskDiv = localStorage.getItem('taskDiv');    
+
     formUpdateTask.style.display = 'none';
     formNewTask.style.display = 'block';
+
+    taskDiv.style.display = 'none';
+    
 })
