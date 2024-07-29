@@ -4,7 +4,7 @@ const token = localStorage.getItem('authToken');
 const userId = localStorage.getItem('userId');
 const apiUrl = "https://tarefas-9ku0.onrender.com";
 
-// localStorage.setItem('taskDiv', taskDiv);
+localStorage.setItem('taskDiv', taskDiv);
 
 // Evento para envio do formulário ao carregar o documento
 document.addEventListener('DOMContentLoaded', () => {  
