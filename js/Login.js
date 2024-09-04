@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('login-form');
     const formRegister = document.getElementById('registerForm');
-    const apiUrl = "https://tarefas-9ku0.onrender.com";
+    const apiUrl = "http://localhost:8080";
 
     formLogin.addEventListener('submit', async (event) => {
         event.preventDefault();

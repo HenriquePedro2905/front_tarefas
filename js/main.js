@@ -2,7 +2,7 @@ let currentTaskId;  // Variável global para armazenar o ID da tarefa atual (usa
 const taskDiv = document.getElementById('taskDiv');  // Elemento div que contém as tarefas listadas
 const token = localStorage.getItem('authToken');
 const userId = localStorage.getItem('userId');
-const apiUrl = "https://tarefas-9ku0.onrender.com";
+const apiUrl = "http://localhost:8080";
 
 // Evento para envio do formulário ao carregar o documento
 document.addEventListener('DOMContentLoaded', () => {  
