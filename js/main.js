@@ -4,6 +4,8 @@ const token = localStorage.getItem('authToken');
 const userId = localStorage.getItem('userId');
 const apiUrl = "http://localhost:8080";
 
+localStorage.setItem('taskDiv', taskDiv);
+
 // Evento para envio do formulário ao carregar o documento
 document.addEventListener('DOMContentLoaded', () => {  
     const formNewTask = document.getElementById('formNewTask');
